@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ─────────────────────────────────────────────── */
+    :root {
+      --ink: #1a1814;
+      --ink-mid: #3d3a34;
+      --ink-light: #6b6760;
+      --ink-faint: #a09d98;
+      --paper: #f7f4ef;
+      --paper-warm: #f0ece4;
+      --paper-dark: #e8e3d9;
+      --paper-darker: #d9d3c7;
+      --accent: #c4571a;
+      --accent-soft: #f2ddd0;
+      --green: #2d6a4f;
+      --amber: #b5650d;
+      --red: #9b2335;
+      --blue: #1e4d8c;
+      --green-soft: #d8f0e8;
+      --amber-soft: #fdecd2;
+      --red-soft: #fce4e7;
+      --blue-soft: #d4e4f7;
+      --sidebar-width: 220px;
+      --titlebar-height: 40px;
+      --radius: 6px;
+      --radius-sm: 4px;
+    }
+
+    /* ── Reset ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+    textarea, input { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Animations ─────────────────────────────────────────────── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-content { animation: fadeIn 200ms ease; }
+
+    /* ── Setup Screen ───────────────────────────────────────────── */
+    #setup-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: var(--paper);
+    }
+    .setup-card {
+      width: 420px;
+      padding: 2.5rem;
+      background: var(--paper-warm);
+      border: 1px solid var(--paper-darker);
+      border-radius: 10px;
+    }
+    .setup-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .setup-logo .logo-dot { font-style: italic; color: var(--accent); }
+    .setup-desc {
+      color: var(--ink-mid);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+      font-size: 0.9rem;
+    }
+    .setup-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.4rem;
+    }
+    .setup-input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: var(--radius-sm);
+      background: var(--paper);
+      color: var(--ink);
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .setup-input:focus { border-color: var(--accent); }
+    .setup-btn {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+    .setup-btn:hover { background: #a84813; }
+    .setup-note {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      line-height: 1.5;
+    }
+
+    /* ── App Shell ──────────────────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Title Bar ──────────────────────────────────────────────── */
+    #title-bar {
+      height: var(--titlebar-height);
+      min-height: var(--titlebar-height);
+      background: var(--paper-warm);
+      border-bottom: 1px solid var(--paper-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.75rem 0 1rem;
+      user-select: none;
+      -webkit-user-select: none;
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .logo .logo-dot { font-style: italic; color: var(--accent); }
+
+    .title-bar-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 1rem;
+    }
+    .btn-briefing {
+      font-size: 0.78rem;
+      padding: 0.28rem 0.7rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: var(--radius-sm);
+      color: var(--ink-mid);
+      background: var(--paper);
+      transition: all 0.15s;
+    }
+    .btn-briefing:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .wc-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      font-size: 0;
+    }
+    .wc-btn:hover { opacity: 0.8; }
+    #btn-close    { background: #ff5f57; }
+    #btn-minimize { background: #febc2e; }
+    #btn-maximize { background: #28c840; }
+
+    /* ── App Layout ─────────────────────────────────────────────── */
+    #app-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ────────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      background: var(--paper-warm);
+      border-right: 1px solid var(--paper-dark);
+      overflow-y: auto;
+      padding: 0.75rem 0;
+    }
+    .sidebar-section {
+      margin-bottom: 0.25rem;
+    }
+    .sidebar-divider {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding: 0.6rem 1rem 0.25rem;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.36rem 1rem;
+      border-radius: 0;
+      color: var(--ink-mid);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+    .sidebar-item:hover { background: var(--paper-dark); color: var(--ink); }
+    .sidebar-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+    .sidebar-item-left { display: flex; align-items: center; gap: 0.5rem; }
+    .sidebar-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.1rem 0.42rem;
+      border-radius: 10px;
+      background: var(--paper-dark);
+      color: var(--ink-light);
+      font-weight: 500;
+    }
+    .badge.attention {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .badge.zero { display: none; }
+
+    /* ── Main Content ───────────────────────────────────────────── */
+    #main-content {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--paper);
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    /* ── Page Heading ───────────────────────────────────────────── */
+    .page-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--ink);
+    }
+    .page-subtitle {
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Input Area ─────────────────────────────────────────────── */
+    .input-area {
+      background: var(--paper-warm);
+      border: 1px solid var(--paper-dark);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .input-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    #task-input {
+      flex: 1;
+      resize: none;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      min-height: 42px;
+      max-height: 180px;
+      outline: none;
+      padding: 0.25rem 0;
+    }
+    #task-input::placeholder { color: var(--ink-faint); }
+    .btn-submit {
+      padding: 0.45rem 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: background 0.15s;
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+    .btn-submit:hover { background: #a84813; }
+    .btn-submit:disabled { background: var(--paper-darker); color: var(--ink-faint); cursor: default; }
+
+    .quick-chips {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .chip {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: 20px;
+      color: var(--ink-light);
+      background: var(--paper);
+      transition: all 0.12s;
+    }
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .thinking {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      margin-top: 0.5rem;
+    }
+    .thinking.visible { display: flex; }
+    .thinking-dots span {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-faint);
+      margin: 0 1px;
+      animation: thinking-bounce 1.2s infinite;
+    }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes thinking-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40%           { transform: translateY(-4px); opacity: 1; }
+    }
+
+    /* ── Drift Alerts Banner ────────────────────────────────────── */
+    .drift-banner {
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--red-soft);
+      border: 1px solid #e8bfc4;
+      border-radius: var(--radius-sm);
+    }
+    .drift-banner-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 0.35rem;
+      font-family: 'DM Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .drift-banner-items { display: flex; flex-direction: column; gap: 0.2rem; }
+    .drift-banner-item {
+      font-size: 0.82rem;
+      color: var(--ink-mid);
+    }
+
+    /* ── Task List ──────────────────────────────────────────────── */
+    .task-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .task-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .task-list-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .btn-clear-completed {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      border: 1px solid var(--paper-darker);
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.12s;
+    }
+    .btn-clear-completed:hover {
+      color: var(--red);
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .empty-state {
+      padding: 2.5rem 1rem;
+      text-align: center;
+      color: var(--ink-faint);
+      font-size: 0.85rem;
+    }
+    .empty-state-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+    /* ── Task Card ──────────────────────────────────────────────── */
+    .task-card {
+      background: var(--paper-warm);
+      border: 1px solid var(--paper-dark);
+      border-radius: var(--radius);
+      padding: 0.7rem 0.85rem 0.7rem 0;
+      display: flex;
+      gap: 0;
+      position: relative;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .task-card:hover { border-color: var(--paper-darker); box-shadow: 0 1px 4px rgba(26,24,20,0.06); }
+    .task-card.completed { opacity: 0.55; }
+    .task-card.completed .task-title { text-decoration: line-through; color: var(--ink-faint); }
+
+    /* Drift strip */
+    .task-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+    }
+    .task-card.drift-high::before  { background: var(--red); }
+    .task-card.drift-medium::before { background: var(--amber); }
+    .task-card.drift-none::before  { background: transparent; }
+
+    .task-checkbox-wrap {
+      width: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 0.15rem;
+    }
+    .task-checkbox {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--paper-darker);
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--paper);
+    }
+    .task-checkbox:hover { border-color: var(--accent); }
+    .task-card.completed .task-checkbox {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .task-checkbox-check {
+      color: #fff;
+      font-size: 9px;
+      display: none;
+    }
+    .task-card.completed .task-checkbox-check { display: block; }
+
+    .task-body { flex: 1; min-width: 0; }
+    .task-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+    .task-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+    }
+    .priority-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      padding: 0.12rem 0.45rem;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    .priority-badge.high   { background: var(--red-soft);   color: var(--red); }
+    .priority-badge.medium { background: var(--amber-soft); color: var(--amber); }
+    .priority-badge.low    { background: var(--green-soft); color: var(--green); }
+
+    .due-date-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--ink-faint);
+    }
+    .due-date-label.overdue   { color: var(--red); }
+    .due-date-label.due-soon  { color: var(--amber); }
+
+    .project-tag {
+      font-size: 0.68rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .progress-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+    }
+
+    .task-notes {
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .drift-warning {
+      margin-top: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .drift-suggestions {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .drift-suggestion {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+    }
+
+    /* Task actions (on hover / expanded) */
+    .task-actions {
+      display: none;
+      gap: 0.4rem;
+      margin-top: 0.55rem;
+      align-items: center;
+    }
+    .task-card:hover .task-actions,
+    .task-card.expanded .task-actions { display: flex; }
+    .task-action-btn {
+      font-size: 0.73rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: var(--radius-sm);
+      color: var(--ink-light);
+      background: var(--paper);
+      transition: all 0.12s;
+    }
+    .task-action-btn:hover { border-color: var(--ink-light); color: var(--ink); }
+    .task-action-btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+
+    /* ── Settings Page ──────────────────────────────────────────── */
+    .settings-section {
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+    .settings-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.75rem;
+    }
+    .settings-card {
+      background: var(--paper-warm);
+      border: 1px solid var(--paper-dark);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .settings-label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--ink-mid);
+      margin-bottom: 0.35rem;
+    }
+    .settings-input {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: var(--radius-sm);
+      background: var(--paper);
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .settings-input:focus { border-color: var(--accent); }
+    .settings-btn {
+      padding: 0.45rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      transition: background 0.15s;
+    }
+    .settings-btn:hover { background: #a84813; }
+    .settings-btn.danger {
+      background: var(--paper);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+    .settings-btn.danger:hover { background: var(--red-soft); }
+    .settings-hint {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+    }
+
+    /* ── Briefing Modal ─────────────────────────────────────────── */
+    #briefing-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,24,20,0.4);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    #briefing-backdrop.visible { display: flex; }
+    #briefing-modal {
+      background: var(--paper);
+      border: 1px solid var(--paper-darker);
+      border-radius: 10px;
+      width: 540px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      animation: slideUp 200ms ease;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--ink);
+    }
+    .modal-close {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      color: var(--ink-faint);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s;
+    }
+    .modal-close:hover { background: var(--paper-dark); color: var(--ink); }
+
+    .load-selector {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .load-pill {
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--paper-darker);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--ink-mid);
+      background: var(--paper-warm);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .load-pill:hover { border-color: var(--ink-light); }
+    .load-pill.selected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .btn-generate-briefing {
+      padding: 0.5rem 1.1rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      transition: background 0.15s;
+      margin-bottom: 1rem;
+    }
+    .btn-generate-briefing:hover { background: #a84813; }
+    .btn-generate-briefing:disabled { background: var(--paper-darker); color: var(--ink-faint); cursor: default; }
+
+    #briefing-output { display: none; }
+    #briefing-output.visible { display: block; animation: fadeIn 200ms ease; }
+
+    .briefing-greeting {
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .briefing-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin: 1rem 0 0.4rem;
+    }
+    .briefing-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .briefing-item {
+      padding: 0.5rem 0.75rem;
+      background: var(--paper-warm);
+      border: 1px solid var(--paper-dark);
+      border-radius: var(--radius-sm);
+    }
+    .briefing-item-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+    .briefing-item-sub { font-size: 0.75rem; color: var(--ink-light); margin-top: 0.15rem; }
+    .briefing-effort {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 10px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      margin-left: 0.35rem;
+    }
+    .briefing-suggestion {
+      margin-top: 1rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--accent-soft);
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      color: var(--ink-mid);
+    }
+
+    /* ── Toast ──────────────────────────────────────────────────── */
+    #toast-container {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+    .toast {
+      padding: 0.65rem 1rem;
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: var(--radius);
+      font-size: 0.83rem;
+      max-width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      animation: slideUp 200ms ease;
+    }
+    .toast.success { background: var(--green); }
+    .toast.error   { background: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- ── Setup Screen ──────────────────────────────────────────────── -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo">aide<span class="logo-dot">.</span></div>
+    <p class="setup-desc">
+      Your personal assistant task manager. Type anything — new tasks, progress
+      updates, scope changes — and Aide interprets them using Claude as its
+      reasoning engine. Your tasks stay on your device.
+    </p>
+    <label class="setup-label" for="setup-key-input">Anthropic API Key</label>
+    <input
+      id="setup-key-input"
+      class="setup-input"
+      type="password"
+      placeholder="sk-ant-api..."
+      autocomplete="off"
+    />
+    <button class="setup-btn" id="setup-submit">Get started →</button>
+    <p id="setup-error" style="display:none;margin-top:0.75rem;font-size:0.8rem;color:var(--red);background:var(--red-soft);padding:0.5rem 0.7rem;border-radius:4px;"></p>
+    <p class="setup-note">
+      Your key is stored in macOS Keychain and never leaves your device except
+      to call the Anthropic API directly.
+    </p>
+  </div>
+</div>
+
+<!-- ── Main App ──────────────────────────────────────────────────── -->
+<div id="app" style="display:none">
+
+  <!-- Title Bar -->
+  <div id="title-bar" data-tauri-drag-region>
+    <div class="logo" data-tauri-drag-region>aide<span class="logo-dot">.</span></div>
+    <div class="title-bar-center" data-tauri-drag-region></div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <button class="btn-briefing" id="btn-briefing">☀ Briefing</button>
+      <div class="window-controls">
+        <button class="wc-btn" id="btn-close" title="Close"></button>
+        <button class="wc-btn" id="btn-minimize" title="Minimize"></button>
+        <button class="wc-btn" id="btn-maximize" title="Maximize"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Layout -->
+  <div id="app-layout">
+
+    <!-- Sidebar -->
+    <nav id="sidebar"></nav>
+
+    <!-- Main Content -->
+    <main id="main-content"></main>
+
+  </div>
+</div>
+
+<!-- ── Briefing Modal ────────────────────────────────────────────── -->
+<div id="briefing-backdrop">
+  <div id="briefing-modal">
+    <div class="modal-header">
+      <div class="modal-title">Daily Briefing</div>
+      <button class="modal-close" id="briefing-close">✕</button>
+    </div>
+    <p style="font-size:0.8rem;color:var(--ink-faint);margin-bottom:1rem;">
+      How does your day look?
+    </p>
+    <div class="load-selector" id="load-selector">
+      <button class="load-pill selected" data-load="light">Light</button>
+      <button class="load-pill" data-load="moderate">Moderate</button>
+      <button class="load-pill" data-load="heavy">Heavy</button>
+      <button class="load-pill" data-load="meetings">All meetings</button>
+    </div>
+    <button class="btn-generate-briefing" id="btn-generate-briefing">
+      Generate briefing
+    </button>
+    <div id="briefing-output"></div>
+  </div>
+</div>
+
+<!-- ── Toast Container ───────────────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   TAURI INTEGRATION
+═══════════════════════════════════════════════════════════════════ */
+const { invoke } = window.__TAURI__.core;
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════════ */
+let state = { tasks: [], projects: {}, lastUpdated: null };
+let currentPage = 'all';
+let currentProjectId = null;
+let selectedLoad = 'light';
+
+/* ═══════════════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════════════ */
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+function generateId() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+const DOW_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MON_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function getTodayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getTomorrowStr() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  const today = getTodayStr();
+  const tomorrow = getTomorrowStr();
+  if (dateStr === today) return { label: 'Today', cls: 'due-soon' };
+  if (dateStr === tomorrow) return { label: 'Tomorrow', cls: 'due-soon' };
+  if (dateStr < today) return { label: `Overdue ${dateStr.slice(5).replace('-', ' ')}`, cls: 'overdue' };
+  const d = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  const diffDays = Math.round((d - now) / 86400000);
+  if (diffDays <= 2) return { label: `${diffDays}d`, cls: 'due-soon' };
+  return { label: `${d.getDate()} ${MON_NAMES[d.getMonth()]}`, cls: '' };
+}
+
+function getDriftScore(task) {
+  if (!task.dueDate || task.completed || !task.createdAt) return 0;
+  const now = new Date();
+  const due = new Date(task.dueDate);
+  const created = new Date(task.createdAt);
+  const totalWindow = (due - created) / 86400000;
+  if (totalWindow <= 0) return now > due ? 1.0 : 0;
+  const elapsed = (now - created) / 86400000;
+  const progress = task.progressPercent || 0;
+  if (now > due) return 1.0;
+  const expectedProgress = Math.min(elapsed / totalWindow, 1.0);
+  const progressGap = Math.max(expectedProgress - (progress / 100), 0);
+  const sensitivity = totalWindow <= 7 ? 0.25 : totalWindow <= 14 ? 0.22 : 0.18;
+  return Math.min(progressGap / (1 - sensitivity), 1.0);
+}
+
+function getDriftLevel(task) {
+  const score = getDriftScore(task);
+  if (score >= 0.65) return 'high';
+  if (score >= 0.35) return 'medium';
+  return 'none';
+}
+
+function getDriftingTasks() {
+  return state.tasks.filter(t => !t.completed && getDriftLevel(t) !== 'none');
+}
+
+function getTodayTasks() {
+  const today = getTodayStr();
+  const tomorrow = getTomorrowStr();
+  const seen = new Set();
+  const result = [];
+  for (const t of state.tasks) {
+    if (t.completed) continue;
+    if (seen.has(t.id)) continue;
+    if (t.dueDate === today || t.dueDate === tomorrow || t.priority === 'high') {
+      seen.add(t.id);
+      result.push(t);
+    }
+  }
+  return result;
+}
+
+function getTimeGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 18) return 'afternoon';
+  return 'evening';
+}
+
+const PROJECT_COLORS = ['#1e4d8c','#2d6a4f','#b5650d','#9b2335','#5a3d8c','#1a6b7a','#7a4f1a'];
+let colorIdx = 0;
+function nextProjectColor() {
+  return PROJECT_COLORS[colorIdx++ % PROJECT_COLORS.length];
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATE PERSISTENCE
+═══════════════════════════════════════════════════════════════════ */
+async function loadState() {
+  try {
+    const raw = await invoke('load_tasks');
+    state = JSON.parse(raw);
+    if (!state.tasks) state.tasks = [];
+    if (!state.projects) state.projects = {};
+  } catch (e) {
+    showToast('Failed to load tasks: ' + e, 'error');
+  }
+}
+
+async function saveState() {
+  state.lastUpdated = new Date().toISOString();
+  try {
+    await invoke('save_tasks', { state: JSON.stringify(state) });
+  } catch (e) {
+    showToast('Failed to save tasks: ' + e, 'error');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CLAUDE API
+═══════════════════════════════════════════════════════════════════ */
+async function callClaude(system, userMessage) {
+  const text = await invoke('call_claude', { system, userMessage });
+  const cleaned = text.replace(/```json\n?|\n?```/g, '').trim();
+  return JSON.parse(cleaned);
+}
+
+function buildTaskIntakePrompt() {
+  const now = new Date();
+  const dow = DOW_NAMES[now.getDay()];
+  const dateStr = `${now.getDate()} ${MON_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+  return `You are Aide, a personal assistant task manager. Today is ${dow}, ${dateStr}.
+
+## Current task state:
+${JSON.stringify(state.tasks)}
+
+## Projects:
+${JSON.stringify(state.projects)}
+
+## Behaviour:
+- Accept any natural language: new tasks, updates, progress notes, scope changes, completions, questions
+- Extract dates from relative expressions using business days (Mon–Fri):
+  - "this week" / "by Friday" → end of this business week (Friday's date)
+  - "next week" → end of next business week
+  - "in 2 weeks" → 14 calendar days from today
+  - "this month" / "end of month" → last business day of current month
+  - "tomorrow" → next business day
+  - Always return dates as YYYY-MM-DD
+- Classify intent: NEW_TASK | UPDATE_TASK | COMPLETE_TASK | DEPRIORITISE | SCOPE_CHANGE | DELETE_TASK | QUESTION | CLARIFY
+- If update is ambiguous against multiple tasks, respond with CLARIFY intent and list top 2-3 candidates in clarifyOptions
+- Ask at most ONE clarifying question, only if genuinely needed — never ask for info the user obviously already has
+- Infer project/theme links when tasks share a goal, client or context — apply automatically and mention it
+- Default priority: medium unless stated
+- For tasks falling behind, populate driftSuggestions with 2-3 concrete quick actions
+
+## Response — return ONLY valid JSON, no prose, no markdown fences:
+{
+  "intent": "NEW_TASK",
+  "message": "Conversational response, 1-2 sentences",
+  "taskMutation": {
+    "action": "create|update|complete|delete|none",
+    "taskId": null,
+    "task": {
+      "id": "generate a uuid v4 string",
+      "title": "clear task title",
+      "notes": "additional context or null",
+      "priority": "high|medium|low",
+      "dueDate": "YYYY-MM-DD or null",
+      "projectId": "project id or null",
+      "progressPercent": 0,
+      "createdAt": "ISO timestamp",
+      "lastUpdated": "ISO timestamp",
+      "completed": false,
+      "driftSuggestions": []
+    }
+  },
+  "projectMutation": {
+    "action": "create|update|none",
+    "projectId": null,
+    "project": { "id": "short-kebab-id", "name": "Project Name", "color": "#hexcolor" }
+  },
+  "driftSuggestions": [],
+  "clarifyOptions": []
+}`;
+}
+
+function buildBriefingPrompt(load) {
+  const now = new Date();
+  const dow = DOW_NAMES[now.getDay()];
+  const dateStr = `${now.getDate()} ${MON_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+  const activeTasks = state.tasks.filter(t => !t.completed);
+  return `You are Aide. Today is ${dow}, ${dateStr}. The user has a ${load} day.
+
+Load descriptions:
+- light: plenty of free time for focused work
+- moderate: a few meetings, good focus blocks available
+- heavy: mostly meetings, limited deep work time
+- meetings: back-to-back meetings, almost no free time
+
+Tasks: ${JSON.stringify(activeTasks)}
+Projects: ${JSON.stringify(state.projects)}
+
+Return ONLY valid JSON:
+{
+  "greeting": "Warm 1-sentence opener referencing day and load",
+  "focusTasks": [
+    { "id": "taskId", "title": "title", "reason": "why focus today", "effort": "quick|medium|deep" }
+  ],
+  "watchTasks": [
+    { "id": "taskId", "title": "title", "concern": "brief concern" }
+  ],
+  "driftAlerts": [
+    { "id": "taskId", "title": "title", "message": "brief drift note" }
+  ],
+  "suggestion": "One concrete suggestion for the day"
+}
+
+Rules:
+- heavy/meetings: max 3 focus tasks, quick effort only (under 30 min)
+- moderate: 3-4 tasks, mix quick and medium
+- light: up to 5 tasks, all effort levels
+- Only flag meaningful drift
+- Tone: warm, direct, trusted colleague — not a productivity app
+- Order focusTasks by urgency × importance`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROCESS INPUT
+═══════════════════════════════════════════════════════════════════ */
+async function processInput() {
+  const textarea = document.getElementById('task-input');
+  const userMessage = textarea.value.trim();
+  if (!userMessage) return;
+
+  const submitBtn = document.getElementById('btn-submit');
+  const thinking = document.getElementById('thinking');
+  textarea.value = '';
+  autoResizeTextarea(textarea);
+  submitBtn.disabled = true;
+  thinking.classList.add('visible');
+
+  try {
+    const system = buildTaskIntakePrompt();
+    const result = await callClaude(system, userMessage);
+    applyMutation(result);
+    await saveState();
+    render();
+
+    if (result.message) {
+      showToast(escHtml(result.message), 'default');
+    }
+  } catch (e) {
+    showToast('Error: ' + e, 'error');
+  } finally {
+    submitBtn.disabled = false;
+    thinking.classList.remove('visible');
+    textarea.focus();
+  }
+}
+
+function applyMutation(result) {
+  // Project mutation
+  if (result.projectMutation && result.projectMutation.action !== 'none') {
+    const pm = result.projectMutation;
+    if (pm.action === 'create' && pm.project) {
+      const proj = pm.project;
+      if (!proj.color) proj.color = nextProjectColor();
+      state.projects[proj.id] = proj;
+    } else if (pm.action === 'update' && pm.project && pm.projectId) {
+      state.projects[pm.projectId] = { ...state.projects[pm.projectId], ...pm.project };
+    }
+  }
+
+  // Task mutation
+  if (result.taskMutation && result.taskMutation.action !== 'none') {
+    const tm = result.taskMutation;
+    if (tm.action === 'create' && tm.task) {
+      if (!tm.task.id) tm.task.id = generateId();
+      if (!tm.task.createdAt) tm.task.createdAt = new Date().toISOString();
+      tm.task.lastUpdated = new Date().toISOString();
+      state.tasks.push(tm.task);
+    } else if (tm.action === 'update' && tm.taskId) {
+      const idx = state.tasks.findIndex(t => t.id === tm.taskId);
+      if (idx !== -1 && tm.task) {
+        state.tasks[idx] = {
+          ...state.tasks[idx],
+          ...tm.task,
+          id: state.tasks[idx].id,
+          lastUpdated: new Date().toISOString()
+        };
+      }
+    } else if (tm.action === 'complete') {
+      const id = tm.taskId || tm.task?.id;
+      const t = state.tasks.find(t => t.id === id);
+      if (t) { t.completed = true; t.lastUpdated = new Date().toISOString(); }
+    } else if (tm.action === 'delete') {
+      const id = tm.taskId || tm.task?.id;
+      state.tasks = state.tasks.filter(t => t.id !== id);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TASK OPERATIONS
+═══════════════════════════════════════════════════════════════════ */
+async function toggleComplete(taskId) {
+  const task = state.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  task.completed = !task.completed;
+  task.lastUpdated = new Date().toISOString();
+  await saveState();
+  render();
+}
+
+async function removeTask(taskId) {
+  state.tasks = state.tasks.filter(t => t.id !== taskId);
+  await saveState();
+  render();
+  showToast('Task removed', 'default');
+}
+
+async function suggestSteps(taskId) {
+  const task = state.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  showToast('Getting suggestions…', 'default');
+  try {
+    const system = buildTaskIntakePrompt();
+    const msg = `Suggest 3 concrete next steps for this task: "${task.title}"${task.notes ? '. Context: ' + task.notes : ''}. Return a taskMutation that updates driftSuggestions only.`;
+    const result = await callClaude(system, msg);
+    if (result.taskMutation?.task?.driftSuggestions?.length) {
+      task.driftSuggestions = result.taskMutation.task.driftSuggestions;
+      task.lastUpdated = new Date().toISOString();
+      await saveState();
+      render();
+      showToast('Suggestions added', 'success');
+    }
+  } catch (e) {
+    showToast('Error: ' + e, 'error');
+  }
+}
+
+async function openUpdateInput(taskId) {
+  const task = state.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  const textarea = document.getElementById('task-input');
+  textarea.value = `Update "${task.title}": `;
+  textarea.focus();
+  textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+  autoResizeTextarea(textarea);
+  // Scroll to top
+  document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function clearCompleted() {
+  state.tasks = state.tasks.filter(t => !t.completed);
+  await saveState();
+  render();
+  showToast('Completed tasks cleared', 'success');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════════ */
+function navigate(page, projectId = null) {
+  currentPage = page;
+  currentProjectId = projectId;
+  render();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════════════════════════ */
+function render() {
+  renderSidebar();
+  renderMainContent();
+}
+
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const allCount = state.tasks.filter(t => !t.completed).length;
+  const todayCount = getTodayTasks().length;
+  const attnTasks = getDriftingTasks();
+  const attnCount = attnTasks.length;
+  const highCount = state.tasks.filter(t => !t.completed && t.priority === 'high').length;
+  const medCount  = state.tasks.filter(t => !t.completed && t.priority === 'medium').length;
+  const lowCount  = state.tasks.filter(t => !t.completed && t.priority === 'low').length;
+
+  const isActive = (p, pid) => {
+    if (pid) return currentPage === p && currentProjectId === pid;
+    return currentPage === p && !currentProjectId;
+  };
+
+  let projectItems = '';
+  for (const proj of Object.values(state.projects)) {
+    const count = state.tasks.filter(t => !t.completed && t.projectId === proj.id).length;
+    const active = isActive('project', proj.id);
+    projectItems += `
+      <button class="sidebar-item${active ? ' active' : ''}" onclick="navigate('project','${escHtml(proj.id)}')">
+        <span class="sidebar-item-left">
+          <span class="sidebar-dot" style="background:${escHtml(proj.color)}"></span>
+          ${escHtml(proj.name)}
+        </span>
+        <span class="badge${count === 0 ? ' zero' : ''}">${count}</span>
+      </button>`;
+  }
+
+  sidebar.innerHTML = `
+    <div class="sidebar-section">
+      <button class="sidebar-item${isActive('all') ? ' active' : ''}" onclick="navigate('all')">
+        <span class="sidebar-item-left">All tasks</span>
+        <span class="badge${allCount === 0 ? ' zero' : ''}">${allCount}</span>
+      </button>
+      <button class="sidebar-item${isActive('today') ? ' active' : ''}" onclick="navigate('today')">
+        <span class="sidebar-item-left">Today's focus</span>
+        <span class="badge${todayCount === 0 ? ' zero' : ''}">${todayCount}</span>
+      </button>
+      <button class="sidebar-item${isActive('attention') ? ' active' : ''}" onclick="navigate('attention')">
+        <span class="sidebar-item-left">Needs attention</span>
+        <span class="badge${attnCount > 0 ? ' attention' : (attnCount === 0 ? ' zero' : '')}">${attnCount}</span>
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-divider">Priority</div>
+      <button class="sidebar-item${isActive('priority-high') ? ' active' : ''}" onclick="navigate('priority-high')">
+        <span class="sidebar-item-left">
+          <span class="sidebar-dot" style="background:var(--red)"></span>High
+        </span>
+        <span class="badge${highCount === 0 ? ' zero' : ''}">${highCount}</span>
+      </button>
+      <button class="sidebar-item${isActive('priority-medium') ? ' active' : ''}" onclick="navigate('priority-medium')">
+        <span class="sidebar-item-left">
+          <span class="sidebar-dot" style="background:var(--amber)"></span>Medium
+        </span>
+        <span class="badge${medCount === 0 ? ' zero' : ''}">${medCount}</span>
+      </button>
+      <button class="sidebar-item${isActive('priority-low') ? ' active' : ''}" onclick="navigate('priority-low')">
+        <span class="sidebar-item-left">
+          <span class="sidebar-dot" style="background:var(--green)"></span>Low
+        </span>
+        <span class="badge${lowCount === 0 ? ' zero' : ''}">${lowCount}</span>
+      </button>
+    </div>
+
+    ${Object.keys(state.projects).length > 0 ? `
+    <div class="sidebar-section">
+      <div class="sidebar-divider">Projects</div>
+      ${projectItems}
+    </div>` : ''}
+
+    <div class="sidebar-section" style="margin-top:auto;">
+      <button class="sidebar-item${isActive('settings') ? ' active' : ''}" onclick="navigate('settings')">
+        <span class="sidebar-item-left">Settings</span>
+      </button>
+    </div>`;
+}
+
+function renderMainContent() {
+  const main = document.getElementById('main-content');
+  let html = '<div class="page-content">';
+
+  switch (currentPage) {
+    case 'all':           html += renderAllTasks();           break;
+    case 'today':         html += renderTodayPage();          break;
+    case 'attention':     html += renderAttentionPage();      break;
+    case 'priority-high': html += renderPriorityPage('high'); break;
+    case 'priority-medium':html += renderPriorityPage('medium');break;
+    case 'priority-low':  html += renderPriorityPage('low');  break;
+    case 'project':       html += renderProjectPage();        break;
+    case 'settings':      html += renderSettingsPage();       break;
+    default:              html += renderAllTasks();
+  }
+
+  html += '</div>';
+  main.innerHTML = html;
+}
+
+/* ── Page: All Tasks ─────────────────────────────────────────────── */
+function renderAllTasks() {
+  const drifting = getDriftingTasks();
+  const active = state.tasks.filter(t => !t.completed);
+  const completed = state.tasks.filter(t => t.completed);
+  const today = new Date();
+  const dateLabel = `${today.getDate()} ${MON_NAMES[today.getMonth()]} ${today.getFullYear()}`;
+
+  let html = `
+    <div class="page-heading">
+      <div class="page-title">All tasks</div>
+      <div class="page-subtitle" style="font-family:'DM Mono',monospace;">${dateLabel}</div>
+    </div>
+    ${renderInputArea()}`;
+
+  if (drifting.length > 0) {
+    html += `
+      <div class="drift-banner">
+        <div class="drift-banner-title">⚠ Drift alerts — ${drifting.length} task${drifting.length > 1 ? 's' : ''} behind</div>
+        <div class="drift-banner-items">
+          ${drifting.map(t => `<div class="drift-banner-item">↳ ${escHtml(t.title)}</div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  html += `
+    <div class="task-list-header">
+      <span class="task-list-label">${active.length} active</span>
+      ${completed.length > 0 ? `<button class="btn-clear-completed" onclick="clearCompleted()">Clear ${completed.length} completed</button>` : ''}
+    </div>
+    <div class="task-list">
+      ${renderTaskCards(active)}
+    </div>`;
+
+  if (completed.length > 0) {
+    html += `
+      <div class="task-list-label" style="margin-top:1.5rem;margin-bottom:0.5rem;display:block;">Completed</div>
+      <div class="task-list">
+        ${renderTaskCards(completed)}
+      </div>`;
+  }
+
+  if (active.length === 0 && completed.length === 0) {
+    html += `
+      <div class="empty-state">
+        <div class="empty-state-icon">✦</div>
+        Nothing here yet. Type something above to get started.
+      </div>`;
+  }
+
+  return html;
+}
+
+/* ── Page: Today's Focus ─────────────────────────────────────────── */
+function renderTodayPage() {
+  const tasks = getTodayTasks();
+  const today = new Date();
+  const dateLabel = `${DOW_NAMES[today.getDay()]}, ${today.getDate()} ${MON_NAMES[today.getMonth()]}`;
+
+  let html = `
+    <div class="page-heading">
+      <div class="page-title">Today's focus</div>
+      <div class="page-subtitle">${dateLabel}</div>
+    </div>`;
+
+  if (tasks.length === 0) {
+    html += `<div class="empty-state"><div class="empty-state-icon">☀</div>Your focus list is clear.</div>`;
+  } else {
+    html += `<div class="task-list">${renderTaskCards(tasks)}</div>`;
+  }
+  return html;
+}
+
+/* ── Page: Needs Attention ───────────────────────────────────────── */
+function renderAttentionPage() {
+  const tasks = getDriftingTasks();
+
+  let html = `
+    <div class="page-heading">
+      <div class="page-title">Needs attention</div>
+      <div class="page-subtitle">${tasks.length} drifting</div>
+    </div>`;
+
+  if (tasks.length === 0) {
+    html += `<div class="empty-state"><div class="empty-state-icon">✓</div>All tasks are on track.</div>`;
+  } else {
+    html += `<div class="task-list">${renderTaskCards(tasks)}</div>`;
+  }
+  return html;
+}
+
+/* ── Page: Priority ──────────────────────────────────────────────── */
+function renderPriorityPage(priority) {
+  const tasks = state.tasks.filter(t => !t.completed && t.priority === priority);
+  const labels = { high: 'High priority', medium: 'Medium priority', low: 'Low priority' };
+
+  let html = `
+    <div class="page-heading">
+      <div class="page-title">${labels[priority]}</div>
+      <div class="page-subtitle">${tasks.length} task${tasks.length !== 1 ? 's' : ''}</div>
+    </div>`;
+
+  if (tasks.length === 0) {
+    html += `<div class="empty-state"><div class="empty-state-icon">—</div>No ${priority} priority tasks.</div>`;
+  } else {
+    html += `<div class="task-list">${renderTaskCards(tasks)}</div>`;
+  }
+  return html;
+}
+
+/* ── Page: Project ───────────────────────────────────────────────── */
+function renderProjectPage() {
+  const project = state.projects[currentProjectId];
+  if (!project) return '<div class="empty-state">Project not found.</div>';
+
+  const tasks = state.tasks.filter(t => !t.completed && t.projectId === currentProjectId);
+  const completed = state.tasks.filter(t => t.completed && t.projectId === currentProjectId);
+
+  let html = `
+    <div class="page-heading">
+      <div class="page-title" style="display:flex;align-items:center;gap:0.5rem;">
+        <span style="width:10px;height:10px;border-radius:50%;background:${escHtml(project.color)};display:inline-block;flex-shrink:0;"></span>
+        ${escHtml(project.name)}
+      </div>
+      <div class="page-subtitle">${tasks.length} active</div>
+    </div>`;
+
+  if (tasks.length === 0 && completed.length === 0) {
+    html += `<div class="empty-state"><div class="empty-state-icon">○</div>No tasks in this project yet.</div>`;
+  } else {
+    html += `<div class="task-list">${renderTaskCards(tasks)}</div>`;
+    if (completed.length > 0) {
+      html += `
+        <div class="task-list-label" style="margin-top:1.5rem;margin-bottom:0.5rem;display:block;">Completed</div>
+        <div class="task-list">${renderTaskCards(completed)}</div>`;
+    }
+  }
+  return html;
+}
+
+/* ── Page: Settings ──────────────────────────────────────────────── */
+function renderSettingsPage() {
+  return `
+    <div class="page-heading">
+      <div class="page-title">Settings</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-title">API Key</div>
+      <div class="settings-card">
+        <label class="settings-label">Anthropic API Key</label>
+        <input class="settings-input" type="password" id="settings-key-input" placeholder="sk-ant-api..." autocomplete="off" />
+        <button class="settings-btn" onclick="updateApiKey()">Update key</button>
+        <p class="settings-hint">Stored in macOS Keychain. Never written to disk or logged.</p>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-title">Data</div>
+      <div class="settings-card">
+        <p style="font-size:0.82rem;color:var(--ink-mid);margin-bottom:0.75rem;">
+          Tasks are saved to <span style="font-family:'DM Mono',monospace;font-size:0.75rem;">~/Library/Application Support/aide/tasks.json</span>
+        </p>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="settings-btn" onclick="exportData()">Export JSON</button>
+          <button class="settings-btn danger" onclick="confirmClearData()">Clear all data</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ── Input Area ──────────────────────────────────────────────────── */
+function renderInputArea() {
+  return `
+    <div class="input-area">
+      <div class="input-row">
+        <textarea
+          id="task-input"
+          placeholder="Add a task, give an update, or just tell me what's going on..."
+          rows="1"
+          oninput="autoResizeTextarea(this)"
+          onkeydown="handleInputKeydown(event)"
+        ></textarea>
+        <button class="btn-submit" id="btn-submit" onclick="processInput()">→</button>
+      </div>
+      <div class="quick-chips">
+        <button class="chip" onclick="prependChip('New task: ')">+ task</button>
+        <button class="chip" onclick="prependChip('Update: ')">↺ update</button>
+        <button class="chip" onclick="prependChip('Done with ')">✓ done</button>
+        <button class="chip" onclick="prependChip('Deprioritise ')">↓ deprio</button>
+      </div>
+      <div class="thinking" id="thinking">
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
+        Thinking…
+      </div>
+    </div>`;
+}
+
+/* ── Task Cards ──────────────────────────────────────────────────── */
+function renderTaskCards(tasks) {
+  if (tasks.length === 0) return '';
+  return tasks.map(t => renderTaskCard(t)).join('');
+}
+
+function renderTaskCard(task) {
+  const drift = getDriftLevel(task);
+  const dateInfo = formatDate(task.dueDate);
+  const project = task.projectId ? state.projects[task.projectId] : null;
+  const isComplete = task.completed;
+
+  let metaHtml = `<span class="priority-badge ${escHtml(task.priority)}">${escHtml(task.priority)}</span>`;
+
+  if (dateInfo) {
+    metaHtml += `<span class="due-date-label ${dateInfo.cls}">◷ ${escHtml(dateInfo.label)}</span>`;
+  }
+
+  if (project) {
+    const color = project.color || '#6b6760';
+    const bg = hexToRgba(color, 0.12);
+    metaHtml += `<span class="project-tag" style="background:${bg};color:${escHtml(color)};border-color:${hexToRgba(color, 0.25)}">${escHtml(project.name)}</span>`;
+  }
+
+  if (task.progressPercent > 0) {
+    metaHtml += `<span class="progress-label">${escHtml(String(task.progressPercent))}%</span>`;
+  }
+
+  let driftHtml = '';
+  if (drift !== 'none' && !isComplete) {
+    driftHtml = `<div class="drift-warning">⚠ This task is ${drift === 'high' ? 'significantly' : 'somewhat'} behind schedule</div>`;
+  }
+
+  let suggestionsHtml = '';
+  if (task.driftSuggestions && task.driftSuggestions.length > 0) {
+    suggestionsHtml = `
+      <div class="drift-suggestions">
+        ${task.driftSuggestions.map(s => `<div class="drift-suggestion">↳ ${escHtml(s)}</div>`).join('')}
+      </div>`;
+  }
+
+  return `
+    <div class="task-card${isComplete ? ' completed' : ''} drift-${drift}" id="card-${escHtml(task.id)}" onclick="toggleCardExpand('${escHtml(task.id)}')">
+      <div class="task-checkbox-wrap">
+        <div class="task-checkbox" onclick="event.stopPropagation();toggleComplete('${escHtml(task.id)}')">
+          <span class="task-checkbox-check">✓</span>
+        </div>
+      </div>
+      <div class="task-body">
+        <div class="task-main">
+          <div class="task-title">${escHtml(task.title)}</div>
+        </div>
+        <div class="task-meta">${metaHtml}</div>
+        ${task.notes ? `<div class="task-notes">${escHtml(task.notes)}</div>` : ''}
+        ${driftHtml}
+        ${suggestionsHtml}
+        <div class="task-actions">
+          <button class="task-action-btn" onclick="event.stopPropagation();openUpdateInput('${escHtml(task.id)}')">Update</button>
+          <button class="task-action-btn" onclick="event.stopPropagation();suggestSteps('${escHtml(task.id)}')">Suggest steps</button>
+          <button class="task-action-btn danger" onclick="event.stopPropagation();removeTask('${escHtml(task.id)}')">Remove</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleCardExpand(taskId) {
+  const card = document.getElementById('card-' + taskId);
+  if (card) card.classList.toggle('expanded');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INPUT HELPERS
+═══════════════════════════════════════════════════════════════════ */
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+
+function handleInputKeydown(e) {
+  if (e.key === 'Enter' && e.metaKey) {
+    e.preventDefault();
+    processInput();
+  }
+}
+
+function prependChip(text) {
+  const textarea = document.getElementById('task-input');
+  if (!textarea) return;
+  textarea.value = text + textarea.value;
+  textarea.focus();
+  autoResizeTextarea(textarea);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SETTINGS ACTIONS
+═══════════════════════════════════════════════════════════════════ */
+async function updateApiKey() {
+  const input = document.getElementById('settings-key-input');
+  const key = input ? input.value.trim() : '';
+  if (!key) { showToast('Please enter an API key', 'error'); return; }
+  try {
+    await invoke('set_api_key', { key });
+    showToast('API key updated', 'success');
+    if (input) input.value = '';
+  } catch (e) {
+    showToast('Failed to save key: ' + e, 'error');
+  }
+}
+
+async function exportData() {
+  // Ensure data is saved, then notify user of path
+  try {
+    await saveState();
+    showToast('Data saved to ~/Library/Application Support/aide/tasks.json', 'success');
+  } catch (e) {
+    showToast('Export error: ' + e, 'error');
+  }
+}
+
+async function confirmClearData() {
+  const confirmed = confirm('This will permanently delete all tasks and projects. Are you sure?');
+  if (!confirmed) return;
+  state = { tasks: [], projects: {}, lastUpdated: null };
+  await saveState();
+  render();
+  showToast('All data cleared', 'success');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BRIEFING MODAL
+═══════════════════════════════════════════════════════════════════ */
+function showBriefingModal() {
+  document.getElementById('briefing-backdrop').classList.add('visible');
+  document.getElementById('briefing-output').classList.remove('visible');
+  document.getElementById('briefing-output').innerHTML = '';
+}
+
+function closeBriefingModal() {
+  document.getElementById('briefing-backdrop').classList.remove('visible');
+}
+
+async function generateBriefing() {
+  const btn = document.getElementById('btn-generate-briefing');
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  document.getElementById('briefing-output').classList.remove('visible');
+
+  try {
+    const system = buildBriefingPrompt(selectedLoad);
+    const h = getTimeGreeting();
+    const result = await callClaude(system, `Generate my ${h} briefing for a ${selectedLoad} day.`);
+
+    let html = `<div class="briefing-greeting">${escHtml(result.greeting)}</div>`;
+
+    if (result.focusTasks && result.focusTasks.length > 0) {
+      html += `<div class="briefing-section-label">Focus tasks</div><ul class="briefing-list">`;
+      for (const ft of result.focusTasks) {
+        html += `
+          <li class="briefing-item">
+            <div class="briefing-item-title">
+              ${escHtml(ft.title)}
+              <span class="briefing-effort">${escHtml(ft.effort)}</span>
+            </div>
+            <div class="briefing-item-sub">${escHtml(ft.reason)}</div>
+          </li>`;
+      }
+      html += `</ul>`;
+    }
+
+    if (result.watchTasks && result.watchTasks.length > 0) {
+      html += `<div class="briefing-section-label">Watch list</div><ul class="briefing-list">`;
+      for (const wt of result.watchTasks) {
+        html += `
+          <li class="briefing-item">
+            <div class="briefing-item-title">${escHtml(wt.title)}</div>
+            <div class="briefing-item-sub">${escHtml(wt.concern)}</div>
+          </li>`;
+      }
+      html += `</ul>`;
+    }
+
+    if (result.driftAlerts && result.driftAlerts.length > 0) {
+      html += `<div class="briefing-section-label">⚠ Drift alerts</div><ul class="briefing-list">`;
+      for (const da of result.driftAlerts) {
+        html += `
+          <li class="briefing-item" style="background:var(--red-soft);border-color:#e8bfc4;">
+            <div class="briefing-item-title" style="color:var(--red);">${escHtml(da.title)}</div>
+            <div class="briefing-item-sub">${escHtml(da.message)}</div>
+          </li>`;
+      }
+      html += `</ul>`;
+    }
+
+    if (result.suggestion) {
+      html += `<div class="briefing-suggestion">💡 ${escHtml(result.suggestion)}</div>`;
+    }
+
+    const output = document.getElementById('briefing-output');
+    output.innerHTML = html;
+    output.classList.add('visible');
+  } catch (e) {
+    showToast('Briefing error: ' + e, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generate briefing';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════════ */
+function showToast(message, type = 'default') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast${type !== 'default' ? ' ' + type : ''}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 300ms ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   WINDOW CONTROLS
+═══════════════════════════════════════════════════════════════════ */
+function setupWindowControls() {
+  try {
+    const appWindow = window.__TAURI__.window.getCurrentWindow();
+    document.getElementById('btn-close').addEventListener('click', () => appWindow.close());
+    document.getElementById('btn-minimize').addEventListener('click', () => appWindow.minimize());
+    document.getElementById('btn-maximize').addEventListener('click', () => appWindow.toggleMaximize());
+  } catch (e) {
+    // Not in Tauri context (e.g. browser dev)
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SETUP SCREEN
+═══════════════════════════════════════════════════════════════════ */
+async function saveApiKeyAndStart(key) {
+  await invoke('set_api_key', { key });
+  await loadState();
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  render();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════════ */
+async function initApp() {
+  setupWindowControls();
+
+  // Setup screen handlers
+  document.getElementById('setup-submit').addEventListener('click', async () => {
+    const key = document.getElementById('setup-key-input').value.trim();
+    const btn = document.getElementById('setup-submit');
+    const errEl = document.getElementById('setup-error');
+    errEl.style.display = 'none';
+
+    if (!key) {
+      errEl.textContent = 'Please enter your API key.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    try {
+      await invoke('set_api_key', { key });
+    } catch (e) {
+      errEl.textContent = 'Could not save to Keychain: ' + e;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Get started →';
+      return;
+    }
+
+    try {
+      await loadState();
+    } catch (e) {
+      errEl.textContent = 'Could not load task state: ' + e;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Get started →';
+      return;
+    }
+
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    render();
+  });
+
+  document.getElementById('setup-key-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('setup-submit').click();
+  });
+
+  // Briefing modal
+  document.getElementById('btn-briefing').addEventListener('click', showBriefingModal);
+  document.getElementById('briefing-close').addEventListener('click', closeBriefingModal);
+  document.getElementById('briefing-backdrop').addEventListener('click', e => {
+    if (e.target === document.getElementById('briefing-backdrop')) closeBriefingModal();
+  });
+  document.getElementById('btn-generate-briefing').addEventListener('click', generateBriefing);
+
+  // Load selector pills
+  document.getElementById('load-selector').addEventListener('click', e => {
+    const pill = e.target.closest('.load-pill');
+    if (!pill) return;
+    document.querySelectorAll('.load-pill').forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+    selectedLoad = pill.dataset.load;
+  });
+
+  // Check API key
+  try {
+    const key = await invoke('get_api_key');
+    if (key && key.trim().length > 0) {
+      await loadState();
+      document.getElementById('setup-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      render();
+    }
+    // else: setup screen stays visible
+  } catch (e) {
+    showToast('Startup error: ' + e, 'error');
+  }
+}
+
+initApp();
+</script>
+</body>
+</html>
