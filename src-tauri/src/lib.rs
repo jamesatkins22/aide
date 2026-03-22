@@ -10,6 +10,7 @@ pub fn run() {
             load_tasks,
             save_tasks,
             call_claude,
+            call_claude_stream,
             set_api_key,
             get_api_key,
         ])

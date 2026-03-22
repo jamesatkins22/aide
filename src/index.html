@@ -6,7 +6,7 @@
   <title>Aide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     /* ── Variables ─────────────────────────────────────────────── */
     :root {
@@ -41,7 +41,7 @@
       height: 100%;
       background: var(--paper);
       color: var(--ink);
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 14px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
@@ -82,7 +82,7 @@
       border-radius: 10px;
     }
     .setup-logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 2rem;
       color: var(--ink);
       margin-bottom: 1rem;
@@ -96,7 +96,7 @@
     }
     .setup-label {
       display: block;
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.72rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -156,7 +156,7 @@
       z-index: 100;
     }
     .logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 1.15rem;
       color: var(--ink);
       letter-spacing: -0.01em;
@@ -224,7 +224,7 @@
       margin-bottom: 0.25rem;
     }
     .sidebar-divider {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -255,7 +255,7 @@
       flex-shrink: 0;
     }
     .badge {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.68rem;
       padding: 0.1rem 0.42rem;
       border-radius: 10px;
@@ -268,6 +268,14 @@
       color: var(--red);
     }
     .badge.zero { display: none; }
+
+    /* ── Content Wrapper ────────────────────────────────────────── */
+    #content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
     /* ── Main Content ───────────────────────────────────────────── */
     #main-content {
@@ -285,14 +293,14 @@
       margin-bottom: 1.25rem;
     }
     .page-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 1.5rem;
       color: var(--ink);
     }
     .page-subtitle {
       font-size: 0.8rem;
       color: var(--ink-faint);
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
     }
 
     /* ── Input Area ─────────────────────────────────────────────── */
@@ -394,7 +402,7 @@
       font-weight: 600;
       color: var(--red);
       margin-bottom: 0.35rem;
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -413,7 +421,7 @@
       margin-bottom: 0.5rem;
     }
     .task-list-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.68rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -522,7 +530,7 @@
       margin-top: 0.35rem;
     }
     .priority-badge {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.04em;
       padding: 0.12rem 0.45rem;
@@ -534,7 +542,7 @@
     .priority-badge.low    { background: var(--green-soft); color: var(--green); }
 
     .due-date-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.68rem;
       color: var(--ink-faint);
     }
@@ -546,11 +554,11 @@
       padding: 0.1rem 0.4rem;
       border-radius: 10px;
       border: 1px solid transparent;
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
     }
 
     .progress-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.65rem;
       color: var(--ink-faint);
     }
@@ -613,7 +621,7 @@
       margin-bottom: 2rem;
     }
     .settings-title {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.7rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -693,7 +701,7 @@
       margin-bottom: 1rem;
     }
     .modal-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 1.2rem;
       color: var(--ink);
     }
@@ -756,7 +764,7 @@
       line-height: 1.5;
     }
     .briefing-section-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -774,7 +782,7 @@
     .briefing-item-sub { font-size: 0.75rem; color: var(--ink-light); margin-top: 0.15rem; }
     .briefing-effort {
       display: inline-block;
-      font-family: 'DM Mono', monospace;
+      font-family: 'Mulish', system-ui, sans-serif;
       font-size: 0.62rem;
       padding: 0.1rem 0.35rem;
       border-radius: 10px;
@@ -813,6 +821,150 @@
     }
     .toast.success { background: var(--green); }
     .toast.error   { background: var(--red); }
+
+    /* ── Chat Panel ─────────────────────────────────────────────── */
+    #chat-panel {
+      display: flex;
+      flex-direction: column;
+      height: 272px;
+      min-height: 272px;
+      border-top: 1px solid var(--paper-dark);
+      background: var(--paper-warm);
+    }
+
+    #chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem 1rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    #chat-messages:empty::before {
+      content: 'Ask anything, add a task, or give an update…';
+      color: var(--ink-faint);
+      font-size: 0.8rem;
+      align-self: center;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .chat-message {
+      display: flex;
+      flex-direction: column;
+      max-width: 82%;
+      animation: fadeIn 150ms ease;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .chat-message.assistant {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .chat-bubble {
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .chat-message.user .chat-bubble {
+      background: var(--accent-soft);
+      color: var(--ink);
+      border-bottom-right-radius: 2px;
+    }
+
+    .chat-message.assistant .chat-bubble {
+      background: var(--paper);
+      border: 1px solid var(--paper-dark);
+      color: var(--ink);
+      border-bottom-left-radius: 2px;
+    }
+
+    .chat-bubble.streaming::after {
+      content: '▋';
+      display: inline-block;
+      color: var(--accent);
+      animation: blink 0.8s step-end infinite;
+      margin-left: 1px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    #chat-input-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.4rem;
+      padding: 0.5rem 0.75rem 0.6rem;
+      border-top: 1px solid var(--paper-dark);
+      background: var(--paper-warm);
+    }
+
+    #chat-input {
+      flex: 1;
+      resize: none;
+      border: 1px solid var(--paper-darker);
+      border-radius: var(--radius-sm);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 0.875rem;
+      line-height: 1.45;
+      padding: 0.4rem 0.6rem;
+      min-height: 34px;
+      max-height: 120px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    #chat-input:focus { border-color: var(--accent); }
+    #chat-input::placeholder { color: var(--ink-faint); }
+
+    #chat-send-btn {
+      padding: 0.38rem 0.75rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: background 0.15s;
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+    #chat-send-btn:hover { background: #a84813; }
+    #chat-send-btn:disabled { background: var(--paper-darker); color: var(--ink-faint); cursor: default; }
+
+    #mic-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--paper-darker);
+      background: var(--paper);
+      color: var(--ink-light);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      align-self: flex-end;
+      transition: all 0.15s;
+    }
+    #mic-btn:hover { border-color: var(--ink-light); color: var(--ink); }
+    #mic-btn.listening {
+      background: var(--red-soft);
+      border-color: var(--red);
+      color: var(--red);
+    }
+    #mic-btn.unsupported { opacity: 0.35; cursor: default; }
   </style>
 </head>
 <body>
@@ -866,8 +1018,27 @@
     <!-- Sidebar -->
     <nav id="sidebar"></nav>
 
-    <!-- Main Content -->
-    <main id="main-content"></main>
+    <!-- Content + Chat -->
+    <div id="content-wrapper">
+      <!-- Main Content -->
+      <main id="main-content"></main>
+
+      <!-- Chat Panel -->
+      <div id="chat-panel">
+        <div id="chat-messages"></div>
+        <div id="chat-input-bar">
+          <button id="mic-btn" title="Dictate">🎤</button>
+          <textarea
+            id="chat-input"
+            placeholder="Ask anything, add a task, give an update..."
+            rows="1"
+            oninput="autoResizeChatInput(this)"
+            onkeydown="handleChatKeydown(event)"
+          ></textarea>
+          <button id="chat-send-btn">→</button>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -911,6 +1082,13 @@ let state = { tasks: [], projects: {}, lastUpdated: null };
 let currentPage = 'all';
 let currentProjectId = null;
 let selectedLoad = 'light';
+
+// Chat state (session-only, never persisted)
+let chatMessages = [];
+let isStreaming = false;
+let currentStreamId = null;
+let recognition = null;
+let isListening = false;
 
 /* ═══════════════════════════════════════════════════════════════════
    UTILITIES
@@ -961,19 +1139,10 @@ function formatDate(dateStr) {
 }
 
 function getDriftScore(task) {
-  if (!task.dueDate || task.completed || !task.createdAt) return 0;
+  if (!task.dueDate || task.completed) return 0;
   const now = new Date();
-  const due = new Date(task.dueDate);
-  const created = new Date(task.createdAt);
-  const totalWindow = (due - created) / 86400000;
-  if (totalWindow <= 0) return now > due ? 1.0 : 0;
-  const elapsed = (now - created) / 86400000;
-  const progress = task.progressPercent || 0;
-  if (now > due) return 1.0;
-  const expectedProgress = Math.min(elapsed / totalWindow, 1.0);
-  const progressGap = Math.max(expectedProgress - (progress / 100), 0);
-  const sensitivity = totalWindow <= 7 ? 0.25 : totalWindow <= 14 ? 0.22 : 0.18;
-  return Math.min(progressGap / (1 - sensitivity), 1.0);
+  const due = new Date(task.dueDate + 'T23:59:59');
+  return now > due ? 1.0 : 0;
 }
 
 function getDriftLevel(task) {
@@ -1272,13 +1441,12 @@ async function suggestSteps(taskId) {
 async function openUpdateInput(taskId) {
   const task = state.tasks.find(t => t.id === taskId);
   if (!task) return;
-  const textarea = document.getElementById('task-input');
-  textarea.value = `Update "${task.title}": `;
-  textarea.focus();
-  textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-  autoResizeTextarea(textarea);
-  // Scroll to top
-  document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  input.value = `Update "${task.title}": `;
+  input.focus();
+  input.setSelectionRange(input.value.length, input.value.length);
+  autoResizeChatInput(input);
 }
 
 async function clearCompleted() {
@@ -1416,9 +1584,8 @@ function renderAllTasks() {
   let html = `
     <div class="page-heading">
       <div class="page-title">All tasks</div>
-      <div class="page-subtitle" style="font-family:'DM Mono',monospace;">${dateLabel}</div>
-    </div>
-    ${renderInputArea()}`;
+      <div class="page-subtitle" style="font-family:'Mulish',system-ui,sans-serif;">${dateLabel}</div>
+    </div>`;
 
   if (drifting.length > 0) {
     html += `
@@ -1566,7 +1733,7 @@ function renderSettingsPage() {
       <div class="settings-title">Data</div>
       <div class="settings-card">
         <p style="font-size:0.82rem;color:var(--ink-mid);margin-bottom:0.75rem;">
-          Tasks are saved to <span style="font-family:'DM Mono',monospace;font-size:0.75rem;">~/Library/Application Support/aide/tasks.json</span>
+          Tasks are saved to <span style="font-family:'Mulish',system-ui,sans-serif;font-size:0.75rem;">~/Library/Application Support/aide/tasks.json</span>
         </p>
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
           <button class="settings-btn" onclick="exportData()">Export JSON</button>
@@ -1615,7 +1782,8 @@ function renderTaskCard(task) {
   const project = task.projectId ? state.projects[task.projectId] : null;
   const isComplete = task.completed;
 
-  let metaHtml = `<span class="priority-badge ${escHtml(task.priority)}">${escHtml(task.priority)}</span>`;
+  const priorityLabel = task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : '';
+  let metaHtml = `<span class="priority-badge ${escHtml(task.priority)}">${escHtml(priorityLabel)}</span>`;
 
   if (dateInfo) {
     metaHtml += `<span class="due-date-label ${dateInfo.cls}">◷ ${escHtml(dateInfo.label)}</span>`;
@@ -1694,6 +1862,188 @@ function prependChip(text) {
   textarea.value = text + textarea.value;
   textarea.focus();
   autoResizeTextarea(textarea);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHAT
+═══════════════════════════════════════════════════════════════════ */
+function autoResizeChatInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleChatKeydown(e) {
+  if (e.key === 'Enter' && !e.metaKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+  // Cmd+Enter inserts a newline
+}
+
+function scrollChatToBottom() {
+  const msgs = document.getElementById('chat-messages');
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendChatBubble(role, text, streaming = false) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = `chat-message ${role}`;
+
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble${streaming ? ' streaming' : ''}`;
+  bubble.textContent = text;
+
+  wrapper.appendChild(bubble);
+  msgs.appendChild(wrapper);
+  scrollChatToBottom();
+  return bubble;
+}
+
+function streamChunk(text) {
+  const msgs = document.getElementById('chat-messages');
+  if (!msgs) return;
+  const bubbles = msgs.querySelectorAll('.chat-bubble.streaming');
+  const bubble = bubbles[bubbles.length - 1];
+  if (bubble) {
+    bubble.textContent += text;
+    scrollChatToBottom();
+  }
+}
+
+function finalizeStream(fullText) {
+  isStreaming = false;
+  currentStreamId = null;
+
+  // Stop the blinking cursor
+  const msgs = document.getElementById('chat-messages');
+  if (msgs) {
+    msgs.querySelectorAll('.chat-bubble.streaming').forEach(b => b.classList.remove('streaming'));
+  }
+
+  // Try to parse JSON and apply task mutations; show only the message field
+  const cleaned = fullText.replace(/```json\n?|\n?```/g, '').trim();
+  try {
+    const result = JSON.parse(cleaned);
+    if (result.message) {
+      // Replace the last assistant bubble content with the clean message
+      if (msgs) {
+        const bubbles = msgs.querySelectorAll('.chat-message.assistant .chat-bubble');
+        const last = bubbles[bubbles.length - 1];
+        if (last) last.textContent = result.message;
+      }
+    }
+    applyMutation(result);
+    saveState();
+    render();
+  } catch (_) {
+    // Not JSON — treat the raw streamed text as the final message, leave as-is
+  }
+
+  const sendBtn = document.getElementById('chat-send-btn');
+  const input = document.getElementById('chat-input');
+  if (sendBtn) sendBtn.disabled = false;
+  if (input) input.focus();
+}
+
+async function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text || isStreaming) return;
+
+  input.value = '';
+  autoResizeChatInput(input);
+
+  appendChatBubble('user', text);
+  appendChatBubble('assistant', '', true);  // empty streaming bubble
+
+  isStreaming = true;
+  currentStreamId = String(Date.now());
+
+  const sendBtn = document.getElementById('chat-send-btn');
+  if (sendBtn) sendBtn.disabled = true;
+
+  try {
+    const system = buildTaskIntakePrompt();
+    await invoke('call_claude_stream', {
+      system,
+      userMessage: text,
+      streamId: currentStreamId
+    });
+  } catch (e) {
+    finalizeStream('');
+    showToast('Error: ' + e, 'error');
+    // Replace the empty streaming bubble with an error note
+    const msgs = document.getElementById('chat-messages');
+    if (msgs) {
+      const last = msgs.querySelector('.chat-message.assistant:last-child .chat-bubble');
+      if (last) last.textContent = 'Something went wrong. Please try again.';
+    }
+  }
+}
+
+/* ── Voice Dictation ────────────────────────────────────────────── */
+function setupVoiceDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('mic-btn');
+  if (!SR) {
+    if (micBtn) micBtn.classList.add('unsupported');
+    return;
+  }
+
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-GB';
+
+  recognition.onresult = (event) => {
+    const transcript = Array.from(event.results)
+      .map(r => r[0].transcript)
+      .join('');
+    const input = document.getElementById('chat-input');
+    if (input) {
+      input.value = transcript;
+      autoResizeChatInput(input);
+    }
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    updateMicBtn();
+  };
+
+  recognition.onerror = () => {
+    isListening = false;
+    updateMicBtn();
+  };
+
+  if (micBtn) micBtn.addEventListener('click', toggleVoice);
+}
+
+function updateMicBtn() {
+  const micBtn = document.getElementById('mic-btn');
+  if (!micBtn) return;
+  if (isListening) {
+    micBtn.classList.add('listening');
+    micBtn.title = 'Stop dictating';
+  } else {
+    micBtn.classList.remove('listening');
+    micBtn.title = 'Dictate';
+  }
+}
+
+function toggleVoice() {
+  if (!recognition) { showToast('Speech recognition not supported in this browser', 'error'); return; }
+  if (isListening) {
+    recognition.stop();
+  } else {
+    recognition.start();
+    isListening = true;
+    updateMicBtn();
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1919,6 +2269,25 @@ async function initApp() {
     pill.classList.add('selected');
     selectedLoad = pill.dataset.load;
   });
+
+  // Chat send button
+  document.getElementById('chat-send-btn').addEventListener('click', sendChatMessage);
+
+  // Stream event listeners
+  const { listen } = window.__TAURI__.event;
+  await listen('chat-chunk', (event) => {
+    if (event.payload.stream_id === currentStreamId) {
+      streamChunk(event.payload.text);
+    }
+  });
+  await listen('chat-done', (event) => {
+    if (event.payload.stream_id === currentStreamId) {
+      finalizeStream(event.payload.full_text);
+    }
+  });
+
+  // Voice dictation
+  setupVoiceDictation();
 
   // Check API key
   try {

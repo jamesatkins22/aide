@@ -78,3 +78,13 @@ pub async fn call_claude(
 ) -> Result<String, String> {
     crate::claude::call_claude(app, system, user_message).await
 }
+
+#[tauri::command]
+pub async fn call_claude_stream(
+    app: AppHandle,
+    system: String,
+    user_message: String,
+    stream_id: String,
+) -> Result<(), String> {
+    crate::claude::call_claude_stream(app, system, user_message, stream_id).await
+}
